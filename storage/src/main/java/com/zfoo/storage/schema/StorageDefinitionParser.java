@@ -17,6 +17,7 @@ import com.zfoo.protocol.util.DomUtils;
 import com.zfoo.protocol.util.StringUtils;
 import com.zfoo.storage.StorageContext;
 import com.zfoo.storage.interpreter.ExcelResourceReader;
+import com.zfoo.storage.interpreter.JsonResourceReader;
 import com.zfoo.storage.manager.StorageManager;
 import com.zfoo.storage.model.config.StorageConfig;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -89,6 +90,12 @@ public class StorageDefinitionParser implements BeanDefinitionParser {
 
         // 注册ExcelResourceReader
         clazz = ExcelResourceReader.class;
+        name = StringUtils.uncapitalize(clazz.getName());
+        //builder = BeanDefinitionBuilder.rootBeanDefinition(clazz);
+        //registry.registerBeanDefinition(name, builder.getBeanDefinition());
+
+        // 注册JsonResourceReader
+        clazz = JsonResourceReader.class;
         name = StringUtils.uncapitalize(clazz.getName());
         builder = BeanDefinitionBuilder.rootBeanDefinition(clazz);
         registry.registerBeanDefinition(name, builder.getBeanDefinition());
