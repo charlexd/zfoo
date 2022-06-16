@@ -46,19 +46,22 @@ public class ApplicationTest {
         var studentManager = context.getBean(StudentManager.class);
         var studentResources = studentManager.studentResources;
         // 类名称和Excel名称必须完全一致，Excel的列名称必须对应对象的属性名称
-        for (StudentResource resource : studentResources.getAll()) {
+        for (var resource : studentResources.getAll()) {
             logger.info(JsonUtils.object2String(resource));
+
         }
         System.out.println(StringUtils.MULTIPLE_HYPHENS);
 
+
+
         // 通过id找到对应的行
-        var id = 1000;
+        var id = 80105;
         var valueById = studentResources.get(id);
         logger.info(JsonUtils.object2String(valueById));
         System.out.println(StringUtils.MULTIPLE_HYPHENS);
 
         // 通过索引找对应的行
-        var valuesByIndex = studentResources.getIndex("name", "james0");
-        logger.info(JsonUtils.object2String(valuesByIndex));
+        //var valuesByIndex = studentResources.getIndex("name", "james0");
+        //logger.info(JsonUtils.object2String(valuesByIndex));
     }
 }

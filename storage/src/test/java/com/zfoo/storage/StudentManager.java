@@ -16,6 +16,7 @@ package com.zfoo.storage;
 import com.zfoo.storage.model.anno.ResInjection;
 import com.zfoo.storage.model.vo.Storage;
 import com.zfoo.storage.resource.StudentResource;
+import com.zfoo.storage.resource.TestWeapon;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,7 +26,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudentManager {
 
+    //@ResInjection
+    //public Storage<Integer, StudentResource> studentResources;
+
     @ResInjection
-    public Storage<Integer, StudentResource> studentResources;
+    public Storage<Integer, TestWeapon> studentResources;
 
 }
