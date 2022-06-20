@@ -34,6 +34,7 @@
         <module>orm</module>
         <module>protocol</module>
         <module>util</module>
+        <module>protogen</module>
     </modules>
 
 
@@ -51,7 +52,7 @@
         <zfoo.util.version>3.0</zfoo.util.version>
 
 
-        <!-- 核心spring框架 -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           <!-- 核心spring框架 -->
         <spring.version>5.3.4</spring.version>
         <spring.boot.version>2.4.3</spring.boot.version>
 
