@@ -103,6 +103,7 @@
 
         <project.build.sourceEncoding>${file.encoding}</project.build.sourceEncoding>
         <maven.compiler.encoding>${file.encoding}</maven.compiler.encoding>
+        <lombok.version>1.18.22</lombok.version>
     </properties>
 
     <dependencies>
@@ -181,13 +182,20 @@
             <scope>test</scope>
         </dependency>
 
-
         <!-- Kryo -->
         <dependency>
             <groupId>com.esotericsoftware</groupId>
             <artifactId>kryo</artifactId>
             <version>${kryo.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- slf4j-api -->

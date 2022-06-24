@@ -113,6 +113,10 @@
 
         <junit.version>4.12</junit.version>
 
+        <!-- lombok -->
+        <lombok.version>1.18.22</lombok.version>
+
+
         <!-- java版本和文件编码 -->
         <java.version>11</java.version>
         <file.encoding>UTF-8</file.encoding>
@@ -134,7 +138,6 @@
 
 
     <dependencies>
-
 
     </dependencies>
 
