@@ -15,6 +15,10 @@ package com.zfoo.net.core.gateway;
 import com.zfoo.net.NetContext;
 import com.zfoo.net.packet.gateway.GatewayToProviderRequest;
 import com.zfoo.net.packet.gateway.GatewayToProviderResponse;
+import com.zfoo.net.packet.protopacket.VARequest;
+import com.zfoo.net.packet.protopacket.VAResponse;
+import com.zfoo.net.packet.protopacket.VerifyAccountRequest;
+import com.zfoo.net.packet.protopacket.VerifyAccountResponse;
 import com.zfoo.net.router.attachment.GatewayAttachment;
 import com.zfoo.net.router.receiver.PacketReceiver;
 import com.zfoo.net.session.model.Session;
@@ -42,4 +46,27 @@ public class GatewayProviderController {
 
         NetContext.getRouter().send(session, response, gatewayAttachment);
     }
+
+    @PacketReceiver
+    public void atVerifyAccountRequest(Session session, VerifyAccountRequest request, GatewayAttachment gatewayAttachment) {
+        //logger.info("provider receive [packet:{}] from client", JsonUtils.object2String(request.getMessageBuilder()));
+
+        logger.info("provider receive [protopacket:{}] from client", request.getMessageBuilder().getAccount().getDeviceToken());
+        var response = new VerifyAccountResponse();
+        response.getMessageBuilder().setRetCode(1122334);
+
+        NetContext.getRouter().send(session, response, gatewayAttachment);
+    }
+
+    @PacketReceiver
+    public void atVARequest(Session session, VARequest request, GatewayAttachment gatewayAttachment) {
+        //logger.info("provider receive [packet:{}] from client", JsonUtils.object2String(request.getMessageBuilder()));
+
+        logger.info("provider receive [protopacket:{}] from client", request.getMessage());
+        var response = new VAResponse();
+        response.setMessage("va test done");
+
+        NetContext.getRouter().send(session, response, gatewayAttachment);
+    }
+
 }

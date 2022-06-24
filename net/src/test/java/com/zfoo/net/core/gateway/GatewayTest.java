@@ -13,10 +13,15 @@
 
 package com.zfoo.net.core.gateway;
 
+import com.google.protobuf.util.JsonFormat;
 import com.zfoo.net.NetContext;
 import com.zfoo.net.core.tcp.TcpClient;
 import com.zfoo.net.packet.gateway.GatewayToProviderRequest;
 import com.zfoo.net.packet.gateway.GatewayToProviderResponse;
+import com.zfoo.net.packet.protopacket.VARequest;
+import com.zfoo.net.packet.protopacket.VAResponse;
+import com.zfoo.net.packet.protopacket.VerifyAccountRequest;
+import com.zfoo.net.packet.protopacket.VerifyAccountResponse;
 import com.zfoo.net.session.SessionUtils;
 import com.zfoo.protocol.util.JsonUtils;
 import com.zfoo.util.ThreadUtils;
@@ -85,14 +90,27 @@ public class GatewayTest {
 
         var request = new GatewayToProviderRequest();
         request.setMessage("Hello, this is the client!");
+
+        var requestPb = new VerifyAccountRequest();
+        requestPb.getMessageBuilder().getAccountBuilder().setDeviceToken("the client for protobuf running");
+
+        var requestPb2 = new VARequest();
+        requestPb2.setMessage("the client for protobuf2 running");
+
         var atomicInteger = new AtomicInteger(0);
 
         for (int i = 0; i < executorSize; i++) {
             var thread = new Thread(() -> {
                 for (int j = 0; j < 10000; j++) {
                     try {
-                        var response = NetContext.getRouter().syncAsk(session, request, GatewayToProviderResponse.class, null).packet();
-                        logger.info("客户端请求[{}]收到消息[{}]", atomicInteger.incrementAndGet(), JsonUtils.object2String(response));
+  //                     var response = NetContext.getRouter().syncAsk(session, request, GatewayToProviderResponse.class, null).packet();
+//                       logger.info("客户端请求[{}]收到消息[{}]", atomicInteger.incrementAndGet(), JsonUtils.object2String(response));
+                        //var responsePb = NetContext.getRouter().syncAsk(session, requestPb2, VAResponse.class, null).packet();
+
+                       // logger.info("客户端请求[{}]收到消息[{}]", atomicInteger.incrementAndGet(), JsonUtils.object2String(responsePb));
+
+                         var responsePb = NetContext.getRouter().syncAsk(session, requestPb, VerifyAccountResponse.class, null).packet();
+                         logger.info("PB客户端请求[{}]收到消息[{}]", atomicInteger.incrementAndGet(), JsonFormat.printer().print(requestPb.getMessageBuilder()));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

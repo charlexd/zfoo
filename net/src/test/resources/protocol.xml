@@ -83,6 +83,10 @@
 
         <protocol id="5000" location="com.zfoo.net.packet.gateway.GatewayToProviderRequest" enhance="false"/>
         <protocol id="5001" location="com.zfoo.net.packet.gateway.GatewayToProviderResponse" enhance="false"/>
+        <protocol id="5002" location="com.zfoo.net.packet.protopacket.VerifyAccountRequest" enhance="false"/>
+        <protocol id="5003" location="com.zfoo.net.packet.protopacket.VerifyAccountResponse" enhance="false"/>
+        <protocol id="7002" location="com.zfoo.net.packet.protopacket.VARequest" enhance="false"/>
+        <protocol id="7003" location="com.zfoo.net.packet.protopacket.VAResponse" enhance="false"/>
     </module>
 
 </protocols>
