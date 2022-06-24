@@ -1,8 +1,5 @@
 package com.zfoo.protocol;
 
-import com.google.protobuf.GeneratedMessageV3;
-import com.google.protobuf.MessageLiteOrBuilder;
-import com.google.protobuf.MessageOrBuilder;
 import io.netty.buffer.ByteBuf;
 
 /************************************************************
