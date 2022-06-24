@@ -89,6 +89,21 @@ public class ProtocolAnalysis {
         baseSerializerMap.put(String.class, StringSerializer.INSTANCE);
     }
 
+    public static synchronized void analyze(Class<?> protocolClazz) {
+        try {
+            checkProtocol(protocolClazz);
+            var reg = parseProtoBufRegistration(protocolClazz, ProtocolModule.DEFAULT_PROTOCOL_MODULE);
+            protocols[reg.protocolId()] = reg;
+        } catch (Exception e) {
+            throw new RunException(e);
+        }
+    }
+
+    /**
+     *  根据协议类集合初始化协议类注册
+     * @param protocolClassSet
+     * @param generateOperation
+     */
     public static synchronized void analyze(Set<Class<?>> protocolClassSet, GenerateOperation generateOperation) {
         AssertionUtils.notNull(subProtocolIdMap, "[{}]已经初始完成，请不要重复初始化", ProtocolManager.class.getSimpleName());
         try {
@@ -107,7 +122,11 @@ public class ProtocolAnalysis {
         }
     }
 
-
+    /**
+     * 根据xml配置初始化协议类注册
+     * @param xmlProtocols
+     * @param generateOperation
+     */
     public static synchronized void analyze(XmlProtocols xmlProtocols, GenerateOperation generateOperation) {
         AssertionUtils.notNull(subProtocolIdMap, "[{}]已经初始完成，请不要重复初始化", ProtocolManager.class.getSimpleName());
         try {
@@ -255,23 +274,47 @@ public class ProtocolAnalysis {
 
     private static ProtocolRegistration parseProtocolRegistration(Class<?> clazz, ProtocolModule module) {
         var protocolId = getProtocolIdByClass(clazz);
-        // 对象需要被序列化的属性
-        var fields = customFieldOrder(clazz);
 
         try {
-            var registrationList = new ArrayList<IFieldRegistration>();
-            for (var field : fields) {
-                registrationList.add(toRegistration(clazz, field));
-            }
-
             var constructor = clazz.getDeclaredConstructor();
             ReflectionUtils.makeAccessible(constructor);
             var protocol = new ProtocolRegistration();
             protocol.setId(protocolId);
             protocol.setConstructor(constructor);
+            protocol.setModule(module.getId());
+
+            var isProto3 = IProtobufPacket.class.isAssignableFrom(clazz);
+            if (isProto3) {
+                protocol.setProto3(true);
+                return protocol;
+            }
+
+            // 对象需要被序列化的属性
+            var fields = customFieldOrder(clazz);
+            var registrationList = new ArrayList<IFieldRegistration>();
+            for (var field : fields) {
+                registrationList.add(toRegistration(clazz, field));
+            }
             protocol.setFields(ArrayUtils.listToArray(fields, Field.class));
             protocol.setFieldRegistrations(ArrayUtils.listToArray(registrationList, IFieldRegistration.class));
-            protocol.setModule(module.getId());
+
+            return protocol;
+        } catch (Exception e) {
+            throw new RuntimeException(StringUtils.format("解析协议[class:{}]异常", clazz), e);
+        }
+    }
+
+    private static ProtocolRegistration parseProtoBufRegistration(Class<?> clazz, ProtocolModule module) {
+        var protocolId = getProtocolIdByClass(clazz);
+
+        try {
+            
+            var constructor = clazz.getDeclaredConstructor();
+            ReflectionUtils.makeAccessible(constructor);
+            var protocol = new ProtocolRegistration();
+            protocol.setId(protocolId);
+            protocol.setConstructor(constructor);
+            protocol.setModule(module == null ? -1: module.getId());
             return protocol;
         } catch (Exception e) {
             throw new RuntimeException(StringUtils.format("解析协议[class:{}]异常", clazz), e);

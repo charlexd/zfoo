@@ -87,6 +87,10 @@ public class ProtocolManager {
         return moduleOptional.get();
     }
 
+    public static void initProtocol(Class<?> protocolClazz) {
+        ProtocolAnalysis.analyze(protocolClazz);
+    }
+
     public static void initProtocol(Set<Class<?>> protocolClassSet) {
         ProtocolAnalysis.analyze(protocolClassSet, GenerateOperation.NO_OPERATION);
     }

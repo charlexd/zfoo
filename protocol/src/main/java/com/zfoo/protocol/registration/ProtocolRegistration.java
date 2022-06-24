@@ -14,12 +14,14 @@
 package com.zfoo.protocol.registration;
 
 import com.zfoo.protocol.IPacket;
+import com.zfoo.protocol.IProtobufPacket;
 import com.zfoo.protocol.buffer.ByteBufUtils;
 import com.zfoo.protocol.registration.anno.Compatible;
 import com.zfoo.protocol.registration.field.IFieldRegistration;
 import com.zfoo.protocol.serializer.reflect.ISerializer;
 import com.zfoo.protocol.util.ReflectionUtils;
 import io.netty.buffer.ByteBuf;
+import lombok.Setter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -41,6 +43,9 @@ public class ProtocolRegistration implements IProtocolRegistration {
     private Object receiver;
 
     private Field[] fields;
+
+    @Setter
+    private boolean proto3 = false;
 
 
     /**
@@ -72,11 +77,17 @@ public class ProtocolRegistration implements IProtocolRegistration {
         return receiver;
     }
 
-
     @Override
     public void write(ByteBuf buffer, IPacket packet) {
         if (packet == null) {
             ByteBufUtils.writeBoolean(buffer, false);
+            return;
+        }
+
+        if (proto3) {
+            ByteBufUtils.writeBoolean(buffer, true);
+            var protobufPacket = (IProtobufPacket)packet;
+            protobufPacket.writeTo(buffer);
             return;
         }
 
@@ -96,7 +107,15 @@ public class ProtocolRegistration implements IProtocolRegistration {
         if (!ByteBufUtils.readBoolean(buffer)) {
             return null;
         }
+
         Object object = ReflectionUtils.newInstance(constructor);
+
+        if (proto3) {
+            var protobufPacket = (IProtobufPacket)object;
+            // read protobuf message
+            protobufPacket.readFrom(buffer);
+            return object;
+        }
 
         for (int i = 0, length = fields.length; i < length; i++) {
             Field field = fields[i];
@@ -111,7 +130,6 @@ public class ProtocolRegistration implements IProtocolRegistration {
         }
         return object;
     }
-
 
     public short getId() {
         return id;
