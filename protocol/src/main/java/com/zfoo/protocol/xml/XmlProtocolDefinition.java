@@ -26,7 +26,7 @@ public class XmlProtocolDefinition {
     private String location;
 
     @JacksonXmlProperty(isAttribute = true, localName = "enhance")
-    private final boolean enhance = true;
+    private boolean enhance = true;
 
 
     public short getId() {
