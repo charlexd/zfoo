@@ -81,6 +81,14 @@ public class Storage<K, V> {
         return result;
     }
 
+    public V getFirst() {
+        AssertionUtils.isTrue(!dataMap.isEmpty(), "静态资源[resource:{}]中的数据为空", clazz.getSimpleName());
+        for (var entry : dataMap.entrySet()) {
+            return entry.getValue();
+        }
+        return null;
+    }
+
     public List<V> getIndex(String indexName, Object key) {
         var indexValues = indexMap.get(indexName);
         AssertionUtils.notNull(indexValues, "静态资源[resource:{}]不存在为[indexName:{}]的索引", clazz.getSimpleName(), indexName);

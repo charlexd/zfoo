@@ -91,14 +91,14 @@ public class StorageDefinitionParser implements BeanDefinitionParser {
         // 注册ExcelResourceReader
         clazz = ExcelResourceReader.class;
         name = StringUtils.uncapitalize(clazz.getName());
-        builder = BeanDefinitionBuilder.rootBeanDefinition(clazz);
-        registry.registerBeanDefinition(name, builder.getBeanDefinition());
+        //builder = BeanDefinitionBuilder.rootBeanDefinition(clazz);
+        //registry.registerBeanDefinition(name, builder.getBeanDefinition());
 
         // 注册JsonResourceReader
         clazz = JsonResourceReader.class;
         name = StringUtils.uncapitalize(clazz.getName());
-        //builder = BeanDefinitionBuilder.rootBeanDefinition(clazz);
-        //registry.registerBeanDefinition(name, builder.getBeanDefinition());
+        builder = BeanDefinitionBuilder.rootBeanDefinition(clazz);
+        registry.registerBeanDefinition(name, builder.getBeanDefinition());
     }
 
     private void resolvePlaceholder(String attributeName, String fieldName, BeanDefinitionBuilder builder, Element element, ParserContext parserContext) {
