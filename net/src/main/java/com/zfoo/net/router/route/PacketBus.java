@@ -109,7 +109,8 @@ public abstract class PacketBus {
                     , "[class:{}] [method:{}] [packet:{}] can not use 'static' as modifier!", bean.getClass().getName(), methodName, packetName);
 
             var expectedMethodName = StringUtils.format("at{}", packetClazz.getSimpleName());
-            AssertionUtils.isTrue(methodName.equals(expectedMethodName)
+            var expectedMethodName2 = StringUtils.format("on{}", packetClazz.getSimpleName());
+            AssertionUtils.isTrue(methodName.equals(expectedMethodName) || methodName.equals(expectedMethodName2)
                     , "[class:{}] [method:{}] [packet:{}] expects '{}' as method name!", bean.getClass().getName(), methodName, packetName, expectedMethodName);
 
             // 如果以Request结尾的请求，那么attachment应该为GatewayAttachment
