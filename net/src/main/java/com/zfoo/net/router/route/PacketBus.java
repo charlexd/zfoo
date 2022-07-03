@@ -111,7 +111,7 @@ public abstract class PacketBus {
             var expectedMethodName = StringUtils.format("at{}", packetClazz.getSimpleName());
             var expectedMethodName2 = StringUtils.format("on{}", packetClazz.getSimpleName());
             AssertionUtils.isTrue(methodName.equals(expectedMethodName) || methodName.equals(expectedMethodName2)
-                    , "[class:{}] [method:{}] [packet:{}] expects '{}' as method name!", bean.getClass().getName(), methodName, packetName, expectedMethodName);
+                    , "[class:{}] [method:{}] [packet:{}] expects '{}' as method name!", bean.getClass().getName(), methodName, packetName, expectedMethodName2);
 
             // 如果以Request结尾的请求，那么attachment应该为GatewayAttachment
             // 如果以Ask结尾的请求，那么attachment不能为GatewayAttachment
