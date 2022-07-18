@@ -67,6 +67,8 @@ public abstract class AbstractServer implements IServer {
     }
 
     protected synchronized void doStart(ChannelInitializer<? extends Channel> channelChannelInitializer) {
+        logger.info("{} try bind to [{}:{}]", this.getClass().getSimpleName(), hostAddress, port);
+
         var cpuNum = Runtime.getRuntime().availableProcessors();
         // 一条线程持有一个端口对应的selector，如果我们启动不仅仅是一个服务器端口的话，为了更好的性能需要修改对应的bossGroup数量
         bossGroup = Epoll.isAvailable()
