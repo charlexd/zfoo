@@ -15,6 +15,7 @@ package com.zfoo.net.handler;
 
 import com.zfoo.event.manager.EventBus;
 import com.zfoo.net.NetContext;
+import com.zfoo.net.core.tcp.model.ServerSessionActiveEvent;
 import com.zfoo.net.core.tcp.model.ServerSessionInactiveEvent;
 import com.zfoo.net.util.SessionUtils;
 import io.netty.channel.ChannelHandler;
@@ -36,6 +37,7 @@ public class ServerRouteHandler extends BaseRouteHandler {
         super.channelActive(ctx);
         var session = initChannel(ctx.channel());
         NetContext.getSessionManager().addServerSession(session);
+        EventBus.asyncSubmit(ServerSessionActiveEvent.valueOf(session));
         logger.info("server channel [{}] is active", SessionUtils.sessionInfo(ctx));
     }
 
