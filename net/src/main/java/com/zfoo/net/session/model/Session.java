@@ -15,6 +15,8 @@ package com.zfoo.net.session.model;
 
 import com.zfoo.protocol.util.StringUtils;
 import io.netty.channel.Channel;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Closeable;
 import java.util.EnumMap;
@@ -36,6 +38,10 @@ public class Session implements Closeable {
     private long sid;
 
     private Channel channel;
+
+    @Getter
+    @Setter
+    private long activeTime;
 
     /**
      * Session附带的属性参数
