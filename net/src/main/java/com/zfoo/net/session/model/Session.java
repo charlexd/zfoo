@@ -41,7 +41,7 @@ public class Session implements Closeable {
 
     @Getter
     @Setter
-    private long activeTime;
+    private long activeTime = 0;
 
     /**
      * Session附带的属性参数
