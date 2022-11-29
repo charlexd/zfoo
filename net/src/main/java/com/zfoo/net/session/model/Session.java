@@ -106,6 +106,10 @@ public class Session implements Closeable {
         return attributes.get(key);
     }
 
+    public boolean hasAttribute(AttributeType key) {
+        return attributes.containsKey(key);
+    }
+
     public Channel getChannel() {
         return channel;
     }
